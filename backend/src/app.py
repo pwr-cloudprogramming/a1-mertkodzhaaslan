@@ -3,7 +3,7 @@ from flask_cors import CORS
 import os
 
 
-template_dir = os.path.abspath('../frontend')  
+template_dir = os.path.abspath('frontend/src')
 app = Flask(__name__, template_folder=template_dir)
 CORS(app)
 
