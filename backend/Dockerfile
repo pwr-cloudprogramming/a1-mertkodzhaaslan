@@ -1,10 +1,17 @@
-FROM python:3.10-alpine
 
-WORKDIR /app
+FROM python:3.8-slim
+
+
+WORKDIR /usr/src/app
+
 
 COPY src/ .
 
-RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python3"]
-CMD ["app.py"]
+RUN pip install flask  
+
+
+EXPOSE 3000
+
+
+CMD ["python", "app.py"]

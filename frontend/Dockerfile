@@ -1,8 +1,7 @@
+
 FROM busybox:1.35
 
-RUN adduser -D stud
-USER stud
-WORKDIR /home/stud
+WORKDIR /usr/src/app
 
 COPY src/ .
 
