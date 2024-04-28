@@ -5,6 +5,7 @@ import os
 
 template_dir = os.path.abspath('frontend/src')
 app = Flask(__name__, template_folder=template_dir)
+
 CORS(app)
 
 
@@ -81,4 +82,4 @@ def check_win(board):
     return None
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=3000, debug=True)
