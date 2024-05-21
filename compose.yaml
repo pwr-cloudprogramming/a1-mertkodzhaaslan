@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: frontend/Dockerfile
     ports:
-      - "80:3000"
+      - "8081:80"
     container_name: frontend_container
 
   backend:
@@ -14,5 +14,5 @@ services:
       context: .
       dockerfile: backend/Dockerfile
     ports:
-      - "3000:3000"
+      - "8080:3000"
     container_name: backend_container
