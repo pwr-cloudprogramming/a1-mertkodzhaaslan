@@ -9,6 +9,6 @@ COPY ./frontend/src/ ./templates
 
 # Install Flask and CORS
 RUN pip install flask flask_cors
-
+EXPOSE 3000
 # Run the application
 CMD ["python", "app.py"]
