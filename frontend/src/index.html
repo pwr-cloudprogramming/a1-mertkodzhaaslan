@@ -3,98 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic-Tac-Toe</title>
-    <style>
-        .board { display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 10px; width: 300px; margin: 20px auto; }
-        .cell { width: 100px; height: 100px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 2em; cursor: pointer; }
-    </style>
+    <title>Space Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-
-Player X: <input type="text" id="playerX" placeholder="Player X name">
-Player O: <input type="text" id="playerO" placeholder="Player O name">
-<button onclick="setNames()">Set Names and Start Game</button>
-<div id="status" style="text-align: center; margin-top: 20px;"></div>
-<div id="board" class="board"></div>
-
-<script>
-let boardState = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
-let gameOver = false;
-
-function renderBoard() {
-    const boardElement = document.getElementById('board');
-    boardElement.innerHTML = ''; // clear the board
-    boardState.forEach((cell, index) => {
-        const cellElement = document.createElement('div');
-        cellElement.classList.add('cell');
-        cellElement.textContent = cell;
-        if (!gameOver) {
-            cellElement.onclick = () => makeMove(index);
-        }
-        boardElement.appendChild(cellElement);
-    });
-}
-
-function makeMove(index) {
-    if (boardState[index] === ' ' && !gameOver) {
-        fetch('http://localhost:3000/move', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ position: index })
-        })
-        .then(response => response.json())
-        .then(data => {
-            updateGameState(data);
-        });
-    }
-}
-
-function setNames() {
-    const playerX = document.getElementById('playerX').value.trim() || 'Player X';
-    const playerO = document.getElementById('playerO').value.trim() || 'Player O';
-    fetch('http://localhost:3000/set_names', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ playerX: playerX, playerO: playerO })
-    })
-    .then(response => response.json())
-    .then(() => {
-        document.getElementById('playerX').disabled = true;
-        document.getElementById('playerO').disabled = true;
-        startGame();
-    });
-}
-
-function startGame() {
-    fetch('http://localhost:3000/start', { method: 'POST' })
-    .then(response => response.json())
-    .then(data => {
-        updateGameState(data);
-    });
-}
-
-function pollGameState() {
-    fetch('http://localhost:3000/game_state')
-        .then(response => response.json())
-        .then(data => {
-            updateGameState(data);
-        });
-}
-
-function updateGameState(data) {
-    boardState = data.board;
-    document.getElementById('status').textContent = data.status;
-    if (data.winner || data.status.includes("wins")) {
-        gameOver = true;
-    } else {
-        gameOver = false;
-    }
-    renderBoard();
-}
-
-setInterval(pollGameState, 2000); // Poll game state every 2 seconds
-
-</script>
-
+    <div class="container">
+        <h1 class="text-center mt-5">Space Tic-Tac-Toe</h1>
+        <div id="usernameForm" class="mb-3">
+            <input type="text" id="username" class="form-control" placeholder="Enter your name">
+            <button class="btn btn-primary mt-2" onclick="startGame()">Start Game</button>
+        </div>
+        <div id="gameBoard" class="d-none">
+            <div class="row">
+                <div class="col-4 game-cell" onclick="makeMove(0)"></div>
+                <div class="col-4 game-cell" onclick="makeMove(1)"></div>
+                <div class="col-4 game-cell" onclick="makeMove(2)"></div>
+            </div>
+            <div class="row">
+                <div class="col-4 game-cell" onclick="makeMove(3)"></div>
+                <div class="col-4 game-cell" onclick="makeMove(4)"></div>
+                <div class="col-4 game-cell" onclick="makeMove(5)"></div>
+            </div>
+            <div class="row">
+                <div class="col-4 game-cell" onclick="makeMove(6)"></div>
+                <div class="col-4 game-cell" onclick="makeMove(7)"></div>
+                <div class="col-4 game-cell" onclick="makeMove(8)"></div>
+            </div>
+        </div>
+        <button id="resetButton" class="btn btn-danger mt-3 d-none" onclick="resetGame()">Reset Game</button>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
